@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan · Portal Pengajuan Finance WM Center</title>
+<link rel="icon" type="image/png" href="assets/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png">
+<link rel="stylesheet" href="assets/tokens/wm-tokens.css">
+<link rel="stylesheet" href="assets/tokens/wm-components.css">
+<style>
+  .ic { width: 18px; height: 18px; flex: none; }
+  .stack > * + * { margin-top: 1.5rem; }
+  .only-md { display: none; }
+  @media (min-width: 768px) { .only-md { display: flex; } .only-sm { display: none !important; } }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .875rem; }
+  .steps li { display: flex; gap: .75rem; align-items: flex-start; }
+  .step-num { flex: none; width: 1.75rem; height: 1.75rem; border-radius: 9999px; background: var(--accent); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: .8125rem; font-weight: 600; }
+  .step-text { font-size: .875rem; }
+  .step-text b { font-weight: 600; }
+  .faq dt { font-weight: 600; font-size: .875rem; margin-top: 1rem; }
+  .faq dd { margin: .25rem 0 0; font-size: .875rem; color: var(--muted-foreground); }
+</style>
+<script>
+  try { if (localStorage.getItem('wm-sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="wm-app">
+  <aside class="wm-sidebar" id="sidebar">
+    <a href="index.html" style="display:block;margin:0 0 1.25rem 15px;text-decoration:none">
+      <img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" width="962" height="646" class="wm-logo logo-auto">
+      <span style="display:block;margin-top:.25rem;font-size:.75rem;color:var(--muted-foreground)">Portal Pengajuan Finance</span>
+    </a>
+    <nav>
+      <a class="wm-nav-item" href="index.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-send"/></svg><span style="flex:1">Ajukan Pengajuan</span></a>
+      <a class="wm-nav-item" href="status.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-clipboard"/></svg><span style="flex:1">Cek Status</span></a>
+      <a class="wm-nav-item" aria-current="page" href="panduan.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-shield"/></svg><span style="flex:1">Panduan</span></a>
+    </nav>
+  </aside>
+  <div class="wm-sidebar-backdrop" id="backdrop" hidden></div>
+
+  <div class="wm-main-col">
+    <header class="wm-header">
+      <div class="row" style="display:flex;align-items:center;gap:.75rem">
+        <button class="wm-btn wm-btn-outline" id="toggle" style="padding:.5rem" aria-label="Tampilkan atau sembunyikan menu samping"><svg class="ic"><use href="assets/icons/icons.svg#icon-menu"/></svg></button>
+        <a href="index.html" class="only-sm" style="display:block"><img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" class="logo-auto" style="height:2.25rem;width:auto"></a>
+        <div class="only-md" style="align-items:center;gap:.375rem;font-size:.875rem;color:var(--muted-foreground)">Portal Pengajuan Finance <svg class="ic" style="width:14px;height:14px"><use href="assets/icons/icons.svg#icon-chevron-right"/></svg> <b style="color:var(--foreground);font-weight:500">Panduan</b></div>
+      </div>
+    </header>
+
+    <div class="wm-watermark" aria-hidden="true"><img src="assets/logo/logo-wm-center-navy.png" alt="" class="logo-auto"></div>
+
+    <main class="wm-main stack" style="position:relative;z-index:6">
+      <div>
+        <h1 class="wm-page-title">Panduan</h1>
+        <p class="wm-page-sub">Cara mengajukan pembayaran atau pembelian ke Finance tanpa WhatsApp.</p>
+      </div>
+
+      <section class="wm-card">
+        <h2 class="wm-card-title">Alur pengajuan</h2>
+        <p class="wm-card-subtitle">Berikut langkah dari pengajuan sampai dibayar.</p>
+        <ol class="steps" style="margin-top:1rem">
+          <li><span class="step-num">1</span><span class="step-text">Buka menu <b>Ajukan Pengajuan</b> dan isi formulir: lokasi, identitas Anda, detail pengajuan, dan dokumen pendukung.</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Untuk pengajuan jenis <b>Jasa</b>, lampirkan juga KTP/NPWP penerima pembayaran.</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Jika pengajuan bersifat mendesak, tandai sebagai <b>urgent</b> dan jelaskan alasannya.</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Kirim formulir. Anda akan menerima <b>ID pengajuan</b> — simpan untuk memeriksa status nanti.</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Tim Finance menerima notifikasi dan akan memvalidasi pengajuan Anda melalui WhatsApp pada nomor yang Anda daftarkan.</span></li>
+          <li><span class="step-num">6</span><span class="step-text">Pantau status pengajuan di menu <b>Cek Status</b> menggunakan ID pengajuan Anda.</span></li>
+          <li><span class="step-num">7</span><span class="step-text">Status akan berubah mengikuti proses: <b>Diajukan</b> → <b>Diproses</b> → <b>Dibayar</b>. Jika ada yang kurang, status menjadi <b>Perlu revisi</b> dan Finance akan menghubungi Anda.</span></li>
+          <li><span class="step-num">8</span><span class="step-text">Pengajuan yang tidak dapat diproses akan berstatus <b>Ditolak</b>, dengan alasan yang disampaikan langsung oleh Finance.</span></li>
+        </ol>
+      </section>
+
+      <section class="wm-card">
+        <h2 class="wm-card-title">Hal yang perlu disiapkan</h2>
+        <ul style="margin:.75rem 0 0;padding-left:1.25rem;font-size:.875rem;display:grid;gap:.375rem">
+          <li>Data rekening penerima pembayaran (nama, bank, nomor rekening).</li>
+          <li>Dokumen pendukung dalam format JPG, PNG, atau PDF, maksimal 5MB per berkas.</li>
+          <li>Untuk jenis Jasa: KTP atau NPWP penerima pembayaran.</li>
+          <li>Nomor WhatsApp aktif untuk dihubungi Finance.</li>
+        </ul>
+      </section>
+
+      <section class="wm-card">
+        <h2 class="wm-card-title">Tanya jawab</h2>
+        <dl class="faq">
+          <dt>Apakah saya perlu login?</dt>
+          <dd>Tidak. Portal ini tidak memerlukan akun atau login.</dd>
+          <dt>Apakah saya akan mendapat notifikasi email atau WhatsApp otomatis?</dt>
+          <dd>Tidak ada notifikasi otomatis ke pemohon. Finance akan menghubungi Anda langsung melalui WhatsApp bila diperlukan.</dd>
+          <dt>Bisakah saya mengubah pengajuan setelah dikirim?</dt>
+          <dd>Tidak. Hubungi Finance langsung melalui WhatsApp jika ada perubahan atau koreksi data.</dd>
+          <dt>Bagaimana jika saya lupa ID pengajuan?</dt>
+          <dd>Gunakan filter lokasi, jenis, atau status di halaman Cek Status untuk menemukan pengajuan Anda.</dd>
+        </dl>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  var sidebar = document.getElementById('sidebar'), backdrop = document.getElementById('backdrop');
+  var wide = function () { return window.matchMedia('(min-width: 768px)').matches; };
+  document.getElementById('toggle').addEventListener('click', function () {
+    if (wide()) {
+      var h = document.documentElement, hide = h.dataset.sidebar !== 'collapsed';
+      if (hide) h.dataset.sidebar = 'collapsed'; else delete h.dataset.sidebar;
+      try { localStorage.setItem('wm-sidebar', hide ? 'collapsed' : 'open'); } catch (e) {}
+    } else {
+      var open = !sidebar.classList.contains('is-open');
+      sidebar.classList.toggle('is-open', open); backdrop.hidden = !open;
+    }
+  });
+  backdrop.addEventListener('click', function () { sidebar.classList.remove('is-open'); backdrop.hidden = true; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { sidebar.classList.remove('is-open'); backdrop.hidden = true; } });
+})();
+</script>
+</body>
+</html>

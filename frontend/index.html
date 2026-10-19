@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ajukan Pengajuan · Portal Pengajuan Finance WM Center</title>
+<link rel="icon" type="image/png" href="assets/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png">
+<link rel="stylesheet" href="assets/tokens/wm-tokens.css">
+<link rel="stylesheet" href="assets/tokens/wm-components.css">
+<style>
+  .ic { width: 18px; height: 18px; flex: none; }
+  .stack > * + * { margin-top: 1.5rem; }
+  .head-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+  .only-md { display: none; }
+  @media (min-width: 768px) { .only-md { display: flex; } .only-sm { display: none !important; } }
+  .wm-section-title { font-size: 1rem; font-weight: 600; margin: 0 0 .25rem; display: flex; align-items: center; gap: .5rem; }
+  .wm-section-sub { font-size: .8125rem; color: var(--muted-foreground); margin: 0 0 1rem; }
+  .file-row { display: flex; align-items: center; gap: .625rem; flex-wrap: wrap; }
+  .file-chip { display: inline-flex; align-items: center; gap: .375rem; padding: .25rem .625rem; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--accent); font-size: .8125rem; }
+  .file-chip button { border: 0; background: none; padding: 0; margin-left: .25rem; cursor: pointer; color: var(--muted-foreground); display: flex; }
+  .honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  fieldset.wm-form-grid { border: 0; padding: 0; margin: 0; }
+  legend.wm-section-title { padding: 0; width: 100%; }
+</style>
+<script>
+  try { if (localStorage.getItem('wm-sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
+</script>
+</head>
+<body>
+<div id="icon-sprite-holder" aria-hidden="true" hidden></div>
+
+<div class="wm-app">
+  <aside class="wm-sidebar" id="sidebar">
+    <a href="index.html" style="display:block;margin:0 0 1.25rem 15px;text-decoration:none">
+      <img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" width="962" height="646" class="wm-logo logo-auto">
+      <span style="display:block;margin-top:.25rem;font-size:.75rem;color:var(--muted-foreground)">Portal Pengajuan Finance</span>
+    </a>
+    <nav>
+      <a class="wm-nav-item" aria-current="page" href="index.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-send"/></svg><span style="flex:1">Ajukan Pengajuan</span></a>
+      <a class="wm-nav-item" href="status.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-clipboard"/></svg><span style="flex:1">Cek Status</span></a>
+      <a class="wm-nav-item" href="panduan.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-shield"/></svg><span style="flex:1">Panduan</span></a>
+    </nav>
+  </aside>
+  <div class="wm-sidebar-backdrop" id="backdrop" hidden></div>
+
+  <div class="wm-main-col">
+    <header class="wm-header">
+      <div class="row" style="display:flex;align-items:center;gap:.75rem">
+        <button class="wm-btn wm-btn-outline" id="toggle" style="padding:.5rem" aria-label="Tampilkan atau sembunyikan menu samping"><svg class="ic"><use href="assets/icons/icons.svg#icon-menu"/></svg></button>
+        <a href="index.html" class="only-sm" style="display:block"><img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" class="logo-auto" style="height:2.25rem;width:auto"></a>
+        <div class="only-md" style="align-items:center;gap:.375rem;font-size:.875rem;color:var(--muted-foreground)">Portal Pengajuan Finance <svg class="ic" style="width:14px;height:14px"><use href="assets/icons/icons.svg#icon-chevron-right"/></svg> <b style="color:var(--foreground);font-weight:500">Ajukan Pengajuan</b></div>
+      </div>
+    </header>
+
+    <div class="wm-watermark" aria-hidden="true"><img src="assets/logo/logo-wm-center-navy.png" alt="" class="logo-auto"></div>
+
+    <main class="wm-main stack" style="position:relative;z-index:6">
+      <div class="head-row">
+        <div>
+          <h1 class="wm-page-title">Ajukan Pengajuan</h1>
+          <p class="wm-page-sub">Isi formulir ini untuk mengajukan pembayaran atau pembelian ke Finance. Finance akan menghubungi Anda melalui WhatsApp untuk validasi.</p>
+        </div>
+      </div>
+
+      <div class="wm-flash is-error" id="formError" hidden></div>
+      <div class="wm-flash" id="formSuccess" hidden></div>
+
+      <form id="pengajuanForm" novalidate>
+        <!-- Honeypot anti-spam, tidak terlihat dan tidak boleh diisi manusia -->
+        <div class="honeypot" aria-hidden="true">
+          <label for="website">Jangan isi kolom ini</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="stack">
+          <!-- 1. Lokasi -->
+          <section class="wm-card">
+            <h2 class="wm-section-title"><svg class="ic"><use href="assets/icons/icons.svg#icon-map-pin"/></svg>Lokasi</h2>
+            <p class="wm-section-sub">Pilih dari mana pengajuan ini berasal.</p>
+            <div class="wm-form-grid cols-2">
+              <div class="wm-field">
+                <label class="wm-label" for="tipeLokasi">Jenis lokasi <span class="wm-required">*wajib</span></label>
+                <select class="wm-select" id="tipeLokasi" name="tipeLokasi" required>
+                  <option value="">Pilih jenis lokasi</option>
+                  <option value="Cabang">Cabang</option>
+                  <option value="Head Office">Head Office</option>
+                </select>
+                <p class="wm-error" id="err-tipeLokasi" hidden></p>
+              </div>
+              <div class="wm-field" id="field-cabang" hidden>
+                <label class="wm-label" for="cabang">Cabang <span class="wm-required">*wajib</span></label>
+                <select class="wm-select" id="cabang" name="cabang">
+                  <option value="">Pilih cabang</option>
+                  <option>Pemuda</option>
+                  <option>Bandung</option>
+                  <option>Kemang</option>
+                  <option>Cibubur</option>
+                  <option>Kebayoran</option>
+                  <option>BSD</option>
+                  <option>Surabaya</option>
+                  <option>Alam Sutera</option>
+                  <option>Puri</option>
+                  <option>Bekasi</option>
+                  <option>Sunter</option>
+                  <option>Tendean</option>
+                  <option>Depok</option>
+                </select>
+                <p class="wm-error" id="err-cabang" hidden></p>
+              </div>
+              <div class="wm-field" id="field-divisi" hidden>
+                <label class="wm-label" for="divisi">Divisi <span class="wm-required">*wajib</span></label>
+                <select class="wm-select" id="divisi" name="divisi">
+                  <option value="">Pilih divisi</option>
+                  <option>Finance & Data Analisi</option>
+                  <option>HR-GA</option>
+                  <option>HR-PD</option>
+                  <option>HR-TA</option>
+                  <option>HR-EB</option>
+                  <option>Project Expense</option>
+                  <option>BD</option>
+                  <option>Brand Communication</option>
+                  <option>Creative</option>
+                  <option>Operasional</option>
+                  <option>Legal</option>
+                </select>
+                <p class="wm-error" id="err-divisi" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Identitas -->
+          <section class="wm-card">
+            <h2 class="wm-section-title"><svg class="ic"><use href="assets/icons/icons.svg#icon-users"/></svg>Identitas pemohon</h2>
+            <p class="wm-section-sub">Data Anda sebagai pemohon pengajuan.</p>
+            <div class="wm-form-grid cols-2">
+              <div class="wm-field">
+                <label class="wm-label" for="namaPemohon">Nama pemohon <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="namaPemohon" name="namaPemohon" required>
+                <p class="wm-error" id="err-namaPemohon" hidden></p>
+              </div>
+              <div class="wm-field">
+                <label class="wm-label" for="noWhatsapp">Nomor WhatsApp <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="noWhatsapp" name="noWhatsapp" inputmode="numeric" placeholder="08xxxxxxxxxx" required>
+                <p class="wm-hint">Finance akan menghubungi nomor ini untuk validasi.</p>
+                <p class="wm-error" id="err-noWhatsapp" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 3. Detail pengajuan -->
+          <section class="wm-card">
+            <h2 class="wm-section-title"><svg class="ic"><use href="assets/icons/icons.svg#icon-coins"/></svg>Detail pengajuan</h2>
+            <p class="wm-section-sub">Jelaskan apa yang diajukan dan berapa nominalnya.</p>
+            <div class="wm-form-grid cols-2">
+              <div class="wm-field">
+                <label class="wm-label" for="jenisPengajuan">Jenis pengajuan <span class="wm-required">*wajib</span></label>
+                <select class="wm-select" id="jenisPengajuan" name="jenisPengajuan" required>
+                  <option value="">Pilih jenis pengajuan</option>
+                  <option>Barang</option>
+                  <option>Jasa</option>
+                  <option>Reimburse</option>
+                  <option>Lainnya</option>
+                </select>
+                <p class="wm-error" id="err-jenisPengajuan" hidden></p>
+              </div>
+              <div class="wm-field">
+                <label class="wm-label" for="nominal">Nominal (Rp) <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="nominal" name="nominal" inputmode="numeric" placeholder="0" required>
+                <p class="wm-hint">Ketik angka saja; tampil dengan pemisah ribuan.</p>
+                <p class="wm-error" id="err-nominal" hidden></p>
+              </div>
+              <div class="wm-field" style="grid-column:1/-1">
+                <label class="wm-label" for="keperluan">Keperluan / tujuan pengajuan <span class="wm-required">*wajib</span></label>
+                <textarea class="wm-textarea" id="keperluan" name="keperluan" rows="3" required></textarea>
+                <p class="wm-error" id="err-keperluan" hidden></p>
+              </div>
+              <div class="wm-field">
+                <label class="wm-label" for="namaPenerima">Nama penerima pembayaran <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="namaPenerima" name="namaPenerima" required>
+                <p class="wm-error" id="err-namaPenerima" hidden></p>
+              </div>
+              <div class="wm-field">
+                <label class="wm-label" for="bank">Bank <span class="wm-required">*wajib</span></label>
+                <select class="wm-select" id="bank" name="bank" required>
+                  <option value="">Pilih bank</option>
+                  <option>BCA</option>
+                  <option>Mandiri</option>
+                  <option>BNI</option>
+                  <option>BRI</option>
+                  <option>BSI</option>
+                  <option>CIMB Niaga</option>
+                  <option>Permata</option>
+                  <option>Danamon</option>
+                  <option>OCBC</option>
+                  <option>Jago</option>
+                  <option>SeaBank</option>
+                  <option>Lainnya</option>
+                </select>
+                <p class="wm-error" id="err-bank" hidden></p>
+              </div>
+              <div class="wm-field">
+                <label class="wm-label" for="noRekening">Nomor rekening <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="noRekening" name="noRekening" inputmode="numeric" required>
+                <p class="wm-error" id="err-noRekening" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Dokumen -->
+          <section class="wm-card" id="section-dokumen">
+            <h2 class="wm-section-title"><svg class="ic"><use href="assets/icons/icons.svg#icon-upload"/></svg>Dokumen pendukung</h2>
+            <p class="wm-section-sub">Unggah dokumen pendukung (invoice, kuitansi, penawaran, dll). Maksimal 5MB per berkas, format JPG/PNG/PDF.</p>
+            <div class="wm-form-grid cols-2">
+              <div class="wm-field" style="grid-column:1/-1">
+                <label class="wm-label" for="dokumen">Berkas dokumen <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="dokumen" name="dokumen" type="file" accept=".jpg,.jpeg,.png,.pdf" multiple required>
+                <p class="wm-hint">Boleh lebih dari satu berkas. Maksimal 5MB per berkas.</p>
+                <div class="file-row" id="fileList" style="margin-top:.5rem"></div>
+                <p class="wm-error" id="err-dokumen" hidden></p>
+              </div>
+              <div class="wm-field" id="field-ktpNpwp" style="grid-column:1/-1" hidden>
+                <label class="wm-label" for="ktpNpwp">KTP / NPWP penerima <span class="wm-required">*wajib</span></label>
+                <input class="wm-input" id="ktpNpwp" name="ktpNpwp" type="file" accept=".jpg,.jpeg,.png,.pdf">
+                <p class="wm-hint">Wajib dilampirkan untuk pengajuan jenis Jasa.</p>
+                <div class="file-row" id="ktpNpwpFileList" style="margin-top:.5rem"></div>
+                <p class="wm-error" id="err-ktpNpwp" hidden></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 5. Urgent -->
+          <section class="wm-card">
+            <h2 class="wm-section-title"><svg class="ic"><use href="assets/icons/icons.svg#icon-alert"/></svg>Pengajuan urgent</h2>
+            <p class="wm-section-sub">Tandai jika pengajuan ini butuh perhatian segera dari Finance.</p>
+            <label style="display:flex;align-items:flex-start;gap:.625rem;font-size:.875rem">
+              <input type="checkbox" id="isUrgent" name="isUrgent" style="margin-top:.2rem">
+              <span>Ini pengajuan urgent</span>
+            </label>
+            <div class="wm-field" id="field-alasanUrgent" style="margin-top:.75rem" hidden>
+              <label class="wm-label" for="alasanUrgent">Alasan urgent <span class="wm-required">*wajib</span></label>
+              <textarea class="wm-textarea" id="alasanUrgent" name="alasanUrgent" rows="2"></textarea>
+              <p class="wm-error" id="err-alasanUrgent" hidden></p>
+            </div>
+          </section>
+
+          <div class="head-row">
+            <p class="wm-hint" style="margin:0">Setelah dikirim, Anda akan mendapat ID pengajuan. Simpan ID tersebut untuk memeriksa status di halaman Cek Status.</p>
+            <button class="wm-btn wm-btn-primary" type="submit" id="submitBtn">
+              <svg class="ic"><use href="assets/icons/icons.svg#icon-send"/></svg>Kirim pengajuan
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Modal hasil pengajuan -->
+      <div class="wm-modal" id="resultModal" hidden role="dialog" aria-modal="true" aria-labelledby="resultModalTitle">
+        <div class="wm-modal-inner">
+          <div class="wm-modal-card">
+            <div>
+              <h3 class="wm-card-title" id="resultModalTitle" style="font-size:1.125rem">Pengajuan terkirim</h3>
+              <p class="wm-card-subtitle">Simpan ID pengajuan ini untuk memeriksa status di halaman Cek Status.</p>
+            </div>
+            <div class="wm-card" style="text-align:center;background:var(--accent)">
+              <div class="wm-stat-label" style="justify-content:center">ID Pengajuan</div>
+              <div class="wm-mono" id="resultId" style="font-size:1.25rem;font-weight:600;color:var(--secondary)">-</div>
+            </div>
+            <div class="wm-modal-actions is-sticky">
+              <a class="wm-btn wm-btn-outline" href="status.html">Buka Cek Status</a>
+              <button type="button" class="wm-btn wm-btn-primary" id="closeResultModal">Ajukan lagi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var sidebar = document.getElementById('sidebar'), backdrop = document.getElementById('backdrop');
+  var wide = function () { return window.matchMedia('(min-width: 768px)').matches; };
+  document.getElementById('toggle').addEventListener('click', function () {
+    if (wide()) {
+      var h = document.documentElement, hide = h.dataset.sidebar !== 'collapsed';
+      if (hide) h.dataset.sidebar = 'collapsed'; else delete h.dataset.sidebar;
+      try { localStorage.setItem('wm-sidebar', hide ? 'collapsed' : 'open'); } catch (e) {}
+    } else {
+      var open = !sidebar.classList.contains('is-open');
+      sidebar.classList.toggle('is-open', open); backdrop.hidden = !open;
+    }
+  });
+  backdrop.addEventListener('click', function () { sidebar.classList.remove('is-open'); backdrop.hidden = true; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { sidebar.classList.remove('is-open'); backdrop.hidden = true; } });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cek Status · Portal Pengajuan Finance WM Center</title>
+<link rel="icon" type="image/png" href="assets/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon-180.png">
+<link rel="stylesheet" href="assets/tokens/wm-tokens.css">
+<link rel="stylesheet" href="assets/tokens/wm-components.css">
+<style>
+  .ic { width: 18px; height: 18px; flex: none; }
+  .stack > * + * { margin-top: 1.5rem; }
+  .head-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+  .only-md { display: none; }
+  @media (min-width: 768px) { .only-md { display: flex; } .only-sm { display: none !important; } }
+  .filters { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .row { display: flex; align-items: center; gap: .5rem; }
+  .wm-table-empty { padding: 2rem 1rem; text-align: center; color: var(--muted-foreground); font-size: .875rem; }
+</style>
+<script>
+  try { if (localStorage.getItem('wm-sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="wm-app">
+  <aside class="wm-sidebar" id="sidebar">
+    <a href="index.html" style="display:block;margin:0 0 1.25rem 15px;text-decoration:none">
+      <img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" width="962" height="646" class="wm-logo logo-auto">
+      <span style="display:block;margin-top:.25rem;font-size:.75rem;color:var(--muted-foreground)">Portal Pengajuan Finance</span>
+    </a>
+    <nav>
+      <a class="wm-nav-item" href="index.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-send"/></svg><span style="flex:1">Ajukan Pengajuan</span></a>
+      <a class="wm-nav-item" aria-current="page" href="status.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-clipboard"/></svg><span style="flex:1">Cek Status</span></a>
+      <a class="wm-nav-item" href="panduan.html"><svg class="ic"><use href="assets/icons/icons.svg#icon-shield"/></svg><span style="flex:1">Panduan</span></a>
+    </nav>
+  </aside>
+  <div class="wm-sidebar-backdrop" id="backdrop" hidden></div>
+
+  <div class="wm-main-col">
+    <header class="wm-header">
+      <div class="row" style="display:flex;align-items:center;gap:.75rem">
+        <button class="wm-btn wm-btn-outline" id="toggle" style="padding:.5rem" aria-label="Tampilkan atau sembunyikan menu samping"><svg class="ic"><use href="assets/icons/icons.svg#icon-menu"/></svg></button>
+        <a href="index.html" class="only-sm" style="display:block"><img src="assets/logo/logo-wm-center-navy.png" alt="WM Center" class="logo-auto" style="height:2.25rem;width:auto"></a>
+        <div class="only-md" style="align-items:center;gap:.375rem;font-size:.875rem;color:var(--muted-foreground)">Portal Pengajuan Finance <svg class="ic" style="width:14px;height:14px"><use href="assets/icons/icons.svg#icon-chevron-right"/></svg> <b style="color:var(--foreground);font-weight:500">Cek Status</b></div>
+      </div>
+    </header>
+
+    <div class="wm-watermark" aria-hidden="true"><img src="assets/logo/logo-wm-center-navy.png" alt="" class="logo-auto"></div>
+
+    <main class="wm-main stack" style="position:relative;z-index:6">
+      <div class="head-row">
+        <div>
+          <h1 class="wm-page-title">Cek Status</h1>
+          <p class="wm-page-sub">Cari pengajuan Anda dengan ID pengajuan, atau saring daftar di bawah. Hanya informasi umum yang ditampilkan di sini.</p>
+        </div>
+        <div class="head-actions">
+          <button class="wm-btn wm-btn-outline" type="button" id="refreshBtn"><svg class="ic"><use href="assets/icons/icons.svg#icon-activity"/></svg>Muat ulang</button>
+        </div>
+      </div>
+
+      <div class="wm-flash is-error" id="statusError" hidden></div>
+
+      <section class="wm-card">
+        <div class="wm-form-grid cols-2">
+          <div class="wm-field" style="grid-column:1/-1">
+            <label class="wm-label" for="cariId">Cari berdasarkan ID pengajuan</label>
+            <input class="wm-input" id="cariId" placeholder="Contoh: PGJ-20261019-001">
+          </div>
+        </div>
+        <div class="filters" style="margin-top:.75rem">
+          <div class="wm-field">
+            <label class="wm-label" for="filterLokasi">Lokasi</label>
+            <select class="wm-select" id="filterLokasi"><option value="">Semua lokasi</option></select>
+          </div>
+          <div class="wm-field">
+            <label class="wm-label" for="filterJenis">Jenis pengajuan</label>
+            <select class="wm-select" id="filterJenis">
+              <option value="">Semua jenis</option>
+              <option>Barang</option>
+              <option>Jasa</option>
+              <option>Reimburse</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div class="wm-field">
+            <label class="wm-label" for="filterStatus">Status</label>
+            <select class="wm-select" id="filterStatus">
+              <option value="">Semua status</option>
+              <option>Diajukan</option>
+              <option>Diproses</option>
+              <option>Perlu revisi</option>
+              <option>Dibayar</option>
+              <option>Ditolak</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <div class="wm-flash" id="loadingFlash">Memuat data pengajuan...</div>
+
+      <div class="wm-table-wrap" id="tableWrap" hidden>
+        <table class="wm-table">
+          <thead>
+            <tr>
+              <th>ID Pengajuan</th>
+              <th>Tanggal pengajuan</th>
+              <th>Lokasi</th>
+              <th>Jenis</th>
+              <th>Status</th>
+              <th>Urgent</th>
+            </tr>
+          </thead>
+          <tbody id="statusTbody"></tbody>
+        </table>
+      </div>
+      <div class="wm-table-empty" id="emptyState" hidden>Tidak ada pengajuan yang cocok dengan pencarian atau filter Anda.</div>
+
+      <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:.5rem" id="tableFooter" hidden>
+        <p class="wm-hint" id="rowCountInfo" style="margin:0"></p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+(function () {
+  var sidebar = document.getElementById('sidebar'), backdrop = document.getElementById('backdrop');
+  var wide = function () { return window.matchMedia('(min-width: 768px)').matches; };
+  document.getElementById('toggle').addEventListener('click', function () {
+    if (wide()) {
+      var h = document.documentElement, hide = h.dataset.sidebar !== 'collapsed';
+      if (hide) h.dataset.sidebar = 'collapsed'; else delete h.dataset.sidebar;
+      try { localStorage.setItem('wm-sidebar', hide ? 'collapsed' : 'open'); } catch (e) {}
+    } else {
+      var open = !sidebar.classList.contains('is-open');
+      sidebar.classList.toggle('is-open', open); backdrop.hidden = !open;
+    }
+  });
+  backdrop.addEventListener('click', function () { sidebar.classList.remove('is-open'); backdrop.hidden = true; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { sidebar.classList.remove('is-open'); backdrop.hidden = true; } });
+})();
+</script>
+</body>
+</html>
