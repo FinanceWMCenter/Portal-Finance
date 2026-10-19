@@ -17,6 +17,49 @@
   .filters { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
   .row { display: flex; align-items: center; gap: .5rem; }
   .wm-table-empty { padding: 2rem 1rem; text-align: center; color: var(--muted-foreground); font-size: .875rem; }
+
+  /* Bedakan tampilan & nuansa kolom isian (ketik) vs dropdown (pilih) */
+  .wm-input,
+  .wm-textarea {
+    background: var(--card);
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .wm-input:hover,
+  .wm-textarea:hover {
+    border-color: var(--muted-foreground);
+  }
+  .wm-input:focus,
+  .wm-textarea:focus {
+    box-shadow: 0 0 0 3px rgb(32 81 180 / 0.15);
+  }
+  .wm-select {
+    background-color: var(--accent);
+    color: var(--foreground);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 2.5rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+      linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.15rem) center,
+      calc(100% - 0.85rem) center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  }
+  .wm-select:hover {
+    background-color: var(--card);
+    border-color: var(--secondary);
+  }
+  .wm-select:focus {
+    background-color: var(--card);
+    box-shadow: 0 0 0 3px rgb(32 81 180 / 0.15);
+  }
+  .wm-select:disabled {
+    cursor: not-allowed;
+  }
 </style>
 <script>
   try { if (localStorage.getItem('wm-sidebar') === 'collapsed') document.documentElement.dataset.sidebar = 'collapsed'; } catch (e) {}
